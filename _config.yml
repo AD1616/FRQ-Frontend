@@ -1,6 +1,5 @@
 theme: jekyll-theme-midnight
-title: "Leuck Family Reunion"
-description: "Frank P Leuck and Judith Sherwood Leuck reunion site and blog."
-gitorg: "https://github.com/jm1021/leuck_reunion"
-description: "June 26 to July 1 2023"
+title: "FRQ Frontend""
+description: "Frontend for four 2019 FRQs"
+gitorg: "https://github.com/AD1616/FRQ-Frontend"
 google_analytics:
