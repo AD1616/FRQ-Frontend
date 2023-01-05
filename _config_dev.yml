@@ -4,5 +4,5 @@ description: "Demonstrating Java Backend via Github Pages"
 gitorg: "https://github.com/jm1021/leuck_reunion"
 date: "June 26 to July 1 2023"
 google_analytics:
-url: https://ad1616.github.io
-baseurl: /FRQ-Frontend
+url: http://127.0.0.1:4000
+baseurl: 
