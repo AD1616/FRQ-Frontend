@@ -92,7 +92,7 @@ function callAsync() {
             gray = data[i]["light"]["luminosity"] * 255/100;
             image.style.backgroundColor = rgbToHex(gray, gray, gray);
 
-            luminosity.innerHTML = data[i]["light"]["luminosity"]; 
+            luminosity.innerHTML = Math.round(data[i]["light"]["luminosity"]); 
         }
     })
 }
