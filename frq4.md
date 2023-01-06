@@ -63,8 +63,8 @@ function firstCall() {
             else {
                 on.innerHTML = "Off";
             }
-            quality.innerHTML = data[i]["light"]["quality"]; 
-            luminosity.innerHTML = data[i]["light"]["luminosity"]; 
+            quality.innerHTML = Math.round(data[i]["light"]["quality"]); 
+            luminosity.innerHTML = Math.round(data[i]["light"]["luminosity"]); 
 
 
             tr.appendChild(on);
