@@ -5,7 +5,7 @@
     <tr>
         <th>Off/On</th>
         <th>Quality</th>
-        <th>Light</th>
+        <th>Luminosity</th>
         <th>Image</th>
     </tr>
     </thead>
@@ -35,40 +35,69 @@ function rgbToHex(r, g, b) {
 
 const resultContainer = document.getElementById("result");
 
-fetch('https://breadbops.gq/api/lights/')
-  .then((response) => response.json())
-  .then(data => {
-    console.log(data);
-    
-    for (const cell of data) {  
+function firstCall() {
 
-        const tr = document.createElement("tr");
-        const row = document.createElement("td");
-        const column = document.createElement("td");
-        const light = document.createElement("td");
-        const image = document.createElement("div");
+    fetch('https://breadbops.gq/api/lights/')
+    .then((response) => response.json())
+    .then(data => {
+        console.log(data);
+        
+        for (let i = 0; i < data.length; i++) {  
 
-        image.className = "circle";
-        gray = cell["light"]["luminosity"] * 255/1000;
-        image.style.backgroundColor = rgbToHex(gray, gray, gray);
+            const tr = document.createElement("tr");
+            const on = document.createElement("td");
+            const quality = document.createElement("td");
+            const luminosity = document.createElement("td");
+            const image = document.createElement("div");
 
-        if (cell["light"]["on"]) {
-            row.innerHTML = "On";
+            image.className = "circle";
+            image.setAttribute("id", "image" + i);
+            gray = data[i]["light"]["luminosity"] * 255/100;
+            image.style.backgroundColor = rgbToHex(gray, gray, gray);
+
+            luminosity.setAttribute("id", "luminosity" + i);
+
+            if (data[i]["light"]["on"]) {
+                on.innerHTML = "On";
+            }
+            else {
+                on.innerHTML = "Off";
+            }
+            quality.innerHTML = data[i]["light"]["quality"]; 
+            luminosity.innerHTML = data[i]["light"]["luminosity"]; 
+
+
+            tr.appendChild(on);
+            tr.appendChild(quality);
+            tr.appendChild(luminosity);
+            tr.appendChild(image);
+
+            resultContainer.appendChild(tr);
+
         }
-        else {
-            row.innerHTML = "Off";
+    })
+}
+
+function callAsync() {
+    fetch('https://breadbops.gq/api/lights/')
+    .then((response) => response.json())
+    .then(data => {
+        console.log(data);
+        
+        for (let i = 0; i < data.length; i++) {  
+
+            const image = document.getElementById("image" + i);
+            const luminosity = document.getElementById("luminosity" + i);
+
+            gray = data[i]["light"]["luminosity"] * 255/100;
+            image.style.backgroundColor = rgbToHex(gray, gray, gray);
+
+            luminosity.innerHTML = data[i]["light"]["luminosity"]; 
         }
-        column.innerHTML = cell["light"]["quality"]; 
-        light.innerHTML = cell["light"]["luminosity"]; 
+    })
+}
+firstCall();
 
-        tr.appendChild(row);
-        tr.appendChild(column);
-        tr.appendChild(light);
-        tr.appendChild(image);
-
-        resultContainer.appendChild(tr);
-
-    }
-  })
+setInterval(callAsync, 1000);
 
 </script>
