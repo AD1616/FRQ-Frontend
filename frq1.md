@@ -1,10 +1,13 @@
 # FRQ 1
 
 
-
+<table id="idk"></table>
 
 
 <script>
+
+let table = document.getElemenetById("idk");
+
 function getYear(){
     let inputYear = document.getElementById("inputYear").value;
     return inputYear;
@@ -20,16 +23,27 @@ function isLeapYear(yearparam) {
     .then(response => response.json())
     .then(data => {
 
+const table = document.getElementById('idk');
+        while (table.rows.length > 1) {
+          table.deleteRow(-1);
+        }
         console.log(data);
+        for (const car of data.Results) {
+          const row = table.insertRow(-1);
+          row.insertCell(-1).innerHTML = car.Make_ID;
+          row.insertCell(-1).innerHTML = car.Model_ID;
+          row.insertCell(-1).innerHTML = car.Make_Name;
+          row.insertCell(-1).innerHTML = car.Model_Name;
+        }
 
-        result.innerHTML = "Is " + yearparam + " a leap year: " + data.isLeapYear;
+        result.innerHTML = "Is " + yearparam + " a leap year: " + data.Results;
 
     })
 }
 
 </script>
 
-### Check if a Year is a Leap Year
+### Car Models for Honda Year
 <input id="inputYear" placeholder="Input a Year">
 <button onclick="isLeapYear(getYear())">Submit</button>
 <p id="isLeapYearResult"></p>
