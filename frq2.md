@@ -1,6 +1,6 @@
 # FRQ 2
 
-<!DOCTYPE html>
+
 <html>
 <head>
 	<title>Input Form</title>
