@@ -61,12 +61,13 @@ function isLeapYear(yearparam) {
     })
 }
 
-function dayOfYear(month1, day1) {
+
+function dayOfYear(month1, day1, year1) {
     
     result = document.getElementById("dayOfYearResult");
 
     // Fetch data from API
-    fetch('https://breadbops.gq/api/calendar/dayOfYear/' + yearparam)
+    fetch('https://breadbops.gq/api/calendar/dayOfYear/' + month1 + "/" + day1 + "/" + year1)
     .then(response => response.json())
     .then(data => {
 
@@ -93,5 +94,6 @@ function dayOfYear(month1, day1) {
 ### Check Day Of Year
 <input id="inputMonth1" placeholder="Input Month">
     <input id="inputDay1" placeholder="Input Day">
-    <button onclick="dayOfYear(getMonth1(), getDay1())">Submit</button>
+    <input id="inputYear1" placeholder="Input Year">
+    <button onclick="dayOfYear(getMonth1(), getDay1()), getYear1())">Submit</button>
 <p id="dayOfYearResult"></p>
