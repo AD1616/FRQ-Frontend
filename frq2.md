@@ -1,104 +1,52 @@
 # FRQ 2
 
 
-<table>
-    <thead>
-    <tr>
-        <th>Off/On</th>
-        <th>Quality</th>
-        <th>Luminosity</th>
-        <th>Image</th>
-    </tr>
-    </thead>
-    <tbody id="result">
-    <!-- generated rows -->
-    </tbody>
-</table>
+<!-- person-form.html -->
+<form class="person-form">
+  <label for="email">Email:</label>
+  <input type="email" name="email" required>
+  <br>
+  <label for="password">Password:</label>
+  <input type="password" name="password" required>
+  <br>
+  <label for="name">Name:</label>
+  <input type="text" name="name" required>
+  <br>
+  <label for="dob">Date of Birth:</label>
+  <input type="date" name="dob" required>
+  <br>
+  <input type="submit" value="Submit">
+</form>
+
+<!-- display the input fields -->
+<div class="person-display"></div>
+
+<!-- app.js -->
 
 <style>
-.circle {
-  height: 50px;
-  width: 50px;
-  border-radius: 50%;
-}
+const personFormElement = document.querySelector(".person-form");
+const personDisplayElement = document.querySelector(".person-display");
+
+personFormElement.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  const formData = new FormData(personFormElement);
+  const personData = {
+    email: formData.get("email"),
+    password: formData.get("password"),
+    name: formData.get("name"),
+    dob: formData.get("dob")
+  };
+
+  const person = new Person(personData.email, personData.password, personData.name, personData.dob);
+  // Do something with the person object, such as send it to an API
+
+  // Display the input fields
+  personDisplayElement.innerHTML = `
+    <p>Email: ${person.email}</p>
+    <p>Password: ${person.password}</p>
+    <p>Name: ${person.name}</p>
+    <p>Date of Birth: ${person.dob}</p>
+  `;
+});
 </style>
-
-<script>
-
-function componentToHex(c) {
-    c = Math.round(c);
-    let hex = c.toString(16);
-    return hex.length == 1 ? "0" + hex : hex;
-}
-function rgbToHex(r, g, b) {
-    return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
-}
-
-const resultContainer = document.getElementById("result");
-
-function firstCall() {
-
-    fetch('https://breadbops.gq/api/lights/')
-    .then((response) => response.json())
-    .then(data => {
-        console.log(data);
-        
-        for (let i = 0; i < data.length; i++) {  
-
-            const tr = document.createElement("tr");
-            const on = document.createElement("td");
-            const quality = document.createElement("td");
-            const luminosity = document.createElement("td");
-            const image = document.createElement("div");
-
-            image.className = "circle";
-            image.setAttribute("id", "image" + i);
-            gray = data[i]["light"]["luminosity"] * 255/100;
-            image.style.backgroundColor = rgbToHex(gray, gray, gray);
-
-            luminosity.setAttribute("id", "luminosity" + i);
-
-            if (data[i]["light"]["on"]) {
-                on.innerHTML = "On";
-            }
-            else {
-                on.innerHTML = "Off";
-            }
-            quality.innerHTML = data[i]["light"]["quality"]; 
-            luminosity.innerHTML = data[i]["light"]["luminosity"]; 
-
-
-            tr.appendChild(on);
-            tr.appendChild(quality);
-            tr.appendChild(luminosity);
-            tr.appendChild(image);
-
-            resultContainer.appendChild(tr);
-
-        }
-    })
-}
-
-function callAsync() {
-    fetch('https://breadbops.gq/api/lights/')
-    .then((response) => response.json())
-    .then(data => {
-        console.log(data);
-        
-        for (let i = 0; i < data.length; i++) {  
-
-            const image = document.getElementById("image" + i);
-            const luminosity = document.getElementById("luminosity" + i);
-
-            gray = data[i]["light"]["luminosity"] * 255/100;
-            image.style.backgroundColor = rgbToHex(gray, gray, gray);
-
-            luminosity.innerHTML = data[i]["light"]["luminosity"]; 
-        }
-    })
-}
-firstCall();
-
-setInterval(callAsync, 1000);
-
-</script>
