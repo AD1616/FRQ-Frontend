@@ -97,3 +97,29 @@ function dayOfYear(month1, day1, year1) {
     <input id="inputYear1" placeholder="Input Year">
     <button onclick="dayOfYear(getMonth1(), getDay1()), getYear1())">Submit</button>
 <p id="dayOfYearResult"></p>
+
+
+<p id="eqResult"></p>
+
+<input id="inputEq" placeholder="Input equation here">
+    <button onclick="getEq(getInputEq())">Calculate Equation</button>
+
+<script>
+
+function getInputEq(){
+    let equation = document.getElementById("inputEq").value;
+    console.log(equation);
+    return equation;
+}
+
+function getEq(eq) {
+    eqResult = document.getElementById("eqResult");
+    fetch('https://breadbops.gq/api/calendar/isLeapYear/' + eq)
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        eqResult.innerHTML = "The answer is: " + data.Result;
+    })
+}
+
+</script>
