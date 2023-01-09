@@ -16,7 +16,7 @@ function isLeapYear(yearparam) {
     result = document.getElementById("isLeapYearResult");
 
     // Fetch data from API
-    fetch('https://akhilcodingsociety.tk/api/calendar/fetchCars/honda/' + yearparam)
+    fetch('https://breadbops.gq/api/calendar/fetchCars/honda/' + yearparam)
     .then(response => response.json())
     .then(data => {
 
