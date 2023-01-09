@@ -1,72 +1,70 @@
 # FRQ 2
 
-<html>
-<head>
-  <title>Person API</title>
-</head>
-<body>
-  <h1>Person API</h1>
+<!-- HTML for the input form and table -->
+<form id="form">
+  Email: <input type="text" id="email"><br>
+  Password: <input type="text" id="password"><br>
+  Name: <input type="text" id="name"><br>
+  Date of Birth: <input type="text" id="dob"><br>
+  <input type="button" value="Submit" onclick="submitPerson()">
+</form> 
 
-  <!-- Form to input new person -->
-  <form id="person-form">
-    Email: <input type="text" name="email"><br>
-    Password: <input type="text" name="password"><br>
-    Name: <input type="text" name="name"><br>
-    DOB: <input type="text" name="dob"><br>
-    <input type="submit" value="Submit">
-  </form>
+<table id="table">
+  <tr>
+    <th>Email</th>
+    <th>Password</th>
+    <th>Name</th>
+    <th>Date of Birth</th>
+  </tr>
+</table>
 
-  <!-- Table to display people -->
-  <table id="people-table">
-    <tr>
-      <th>ID</th>
-      <th>Email</th>
-      <th>Name</th>
-      <th>DOB</th>
-    </tr>
-  </table>
 
-  <script>
-    // Get form element
-    const form = document.getElementById('person-form');
+<script>
+// Function to submit a person to the backend
+function submitPerson() {
+  // Get the values from the form
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
+  const name = document.getElementById('name').value;
+  const dob = document.getElementById('dob').value;
 
-    // Handle form submission
-    form.addEventListener('submit', (event) => {
-      event.preventDefault();  // prevent page reload
+  // Make a POST request to the backend
+  fetch('https://breadbops.gq/api/person/post', {
+    method: 'POST',
+    body: `email=${email}&password=${password}&name=${name}&dob=${dob}`,
+  }).then(response => {
+    // If the request was successful, get the list of people and update the table
+    if (response.ok) {
+      getPeople();
+    }
+  });
+}
 
-      // Get form data
-      const data = new FormData(form);
+// Function to get the list of people and update the table
+function getPeople() {
+  // Make a GET request to the backend
+  fetch('https://breadbops.gq/api/person/').then(response => {
+    if (response.ok) {
+      response.json().then(people => {
+        // Clear the current table rows
+        const table = document.getElementById('table');
+        while (table.rows.length > 1) {
+          table.deleteRow(-1);
+        }
 
-      // Send POST request to API
-      fetch('https://breadbops.gq/api/person/post', {
-        method: 'POST',
-        body: data
-      })
-      .then(response => response.text())  // parse response as text
-      .then(message => {
-        alert(message);  // show message from API
+        // Add a row for each person
+        for (const person of people) {
+          const row = table.insertRow(-1);
+          row.insertCell(-1).innerHTML = person.email;
+          row.insertCell(-1).innerHTML = person.password;
+          row.insertCell(-1).innerHTML = person.name;
+          row.insertCell(-1).innerHTML = person.dob;
+        }
       });
-    });
+    }
+  });
+}
 
-    // Send GET request to API to get list of people
-    fetch('https://breadbops.gq/api/person/')
-    .then(response => response.json())  // parse response as JSON
-    .then(people => {
-      // Get table element
-      const table = document.getElementById('people-table');
-
-      // Add each person to the table
-      people.forEach(person => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-          <td>${person.id}</td>
-          <td>${person.email}</td>
-          <td>${person.name}</td>
-          <td>${person.dob}</td>
-        `;
-        table.appendChild(row);
-      });
-    });
-  </script>
-</body>
-</html>
+// Initially get the list of people and update the table
+getPeople();
+</script>
