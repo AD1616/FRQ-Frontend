@@ -1,6 +1,6 @@
 # FRQ 2
 
-<!-- HTML for the input form and table -->
+
 <form id="form">
   Email: <input type="text" id="email"><br>
   Password: <input type="text" id="password"><br>
@@ -19,7 +19,7 @@
   </tr>
 </table>
 
-<!-- JavaScript for handling the input and table -->
+
 <script>
 // Function to submit a person to the backend
 function submitPerson() {
@@ -69,6 +69,12 @@ function getPeople() {
 
 // Initially get the list of people and update the table
 getPeople();
+
+function getInputId(){
+    let input = document.getElementById("inputId").value;
+    console.log(input);
+    return input;
+}
 
 
 function getId(id) {
