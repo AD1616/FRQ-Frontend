@@ -14,7 +14,7 @@ function getYear(){
 function isLeapYear(yearparam) {
     
     result = document.getElementById("isLeapYearResult");
-
+    console.log(yearparam);
     // Fetch data from API
     fetch('https://breadbops.gq/api/calendar/fetchCars/honda/' + yearparam)
     .then(response => response.json())
