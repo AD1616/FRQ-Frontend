@@ -35,10 +35,12 @@ function submitPerson() {
     method: 'POST',
     body: 'email=${email}&password=${password}&name=${name}&dob=${dob}',
   }).then(response => {
-    // If the request was successful, get the list of people and update the table
     if (response.ok) {
       getPeople();
     }
+
+        // If the request was successful, this gets the list of people from the table
+
   });
 }
 
