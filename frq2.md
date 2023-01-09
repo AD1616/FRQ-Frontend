@@ -90,7 +90,7 @@ function getId(id) {
     .then(response => response.json())
     .then(data => {
         console.log(data);
-        idResult.innerHTML = "name exists: " + data.name;
+        idResult.innerHTML = "name for id exists: " + data.name;
     })
 }
 
