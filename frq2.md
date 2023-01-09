@@ -11,6 +11,7 @@
 
 <table id="table">
   <tr>
+   <th>ID</th>
     <th>Email</th>
     <th>Password</th>
     <th>Name</th>
@@ -18,7 +19,7 @@
   </tr>
 </table>
 
-
+<!-- JavaScript for handling the input and table -->
 <script>
 // Function to submit a person to the backend
 function submitPerson() {
@@ -31,7 +32,7 @@ function submitPerson() {
   // Make a POST request to the backend
   fetch('https://breadbops.gq/api/person/post', {
     method: 'POST',
-    body: `email=${email}&password=${password}&name=${name}&dob=${dob}`,
+    body: 'email=${email}&password=${password}&name=${name}&dob=${dob}',
   }).then(response => {
     // If the request was successful, get the list of people and update the table
     if (response.ok) {
@@ -55,6 +56,7 @@ function getPeople() {
         // Add a row for each person
         for (const person of people) {
           const row = table.insertRow(-1);
+          row.insertCell(-1).innerHTML = person.id;
           row.insertCell(-1).innerHTML = person.email;
           row.insertCell(-1).innerHTML = person.password;
           row.insertCell(-1).innerHTML = person.name;
@@ -67,4 +69,28 @@ function getPeople() {
 
 // Initially get the list of people and update the table
 getPeople();
+
+
+function getId(id) {
+    idResult = document.getElementById("idResult");
+
+    if(id < 10452){
+        idResult.innerHTML = "Invalid ID. Person 0 has an ID of 19.";
+    }
+    // Fetch data from API
+    fetch('https://breadbops.gq/api/person/' + id)
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        idResult.innerHTML = "Person: " + data.name;
+    })
+}
+
 </script>
+
+<p id="idResult"></p>
+
+<input id="inputId" placeholder="Input Id">
+    <button onclick="getId(getInputId())">Get Person by ID</button>
+
+<br>
