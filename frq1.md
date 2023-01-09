@@ -1,5 +1,4 @@
-## FRQ 1
-<p id="test"></p>
+# FRQ 1
 
 
 
@@ -11,8 +10,8 @@ function numberOfLeapYears(year1, year2) {
     
     result = document.getElementById("numberOfLeapYearsResult");
 
-    // Fetch data from API
-    fetch('https://breadbops.tgq/api/calendar/numberOfLeapYears/' + year1 + "/" + year2)
+    // backend doesnt have this yet
+    fetch('https://breadbops.gq/api/calendar/numberOfLeapYears/' + year1 + "/" + year2)
     .then(response => response.json())
     .then(data => {
 
@@ -38,19 +37,20 @@ function getYear(){
     return inputYear;
 }
 
-
+//duplicate this to month, day, and year as before
+//should have the day of year stuff when we put it in the backend.
 function isLeapYear(yearparam) {
     
     result = document.getElementById("isLeapYearResult");
 
-    // Fetch data from API
+    // it always says false now
     fetch('https://breadbops.gq/api/calendar/isLeapYear/' + yearparam)
     .then(response => response.json())
     .then(data => {
 
         console.log(data);
 
-        result.innerHTML = "Is " + yearparam + " a leap year: " + data.isLeapYear;
+        result.innerHTML = yearparam + data.isLeapYear;
 
     })
 }
@@ -58,7 +58,7 @@ function isLeapYear(yearparam) {
 </script>
 
 ### Check if a Year is a Leap Year
-<input id="inputYear" placeholder="Input a Year">
+<input id="inputYear" placeholder="Is it a Leap Year?">
 <button onclick="isLeapYear(getYear())">Submit</button>
 <p id="isLeapYearResult"></p>
 
