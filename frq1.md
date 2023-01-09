@@ -1,4 +1,8 @@
-# FRQ 1
+## FRQ 1
+<p id="test"></p>
+
+
+
 
 
 <script>
@@ -8,7 +12,7 @@ function numberOfLeapYears(year1, year2) {
     result = document.getElementById("numberOfLeapYearsResult");
 
     // Fetch data from API
-    fetch('https://breadbops.gq/api/calendar/numberOfLeapYears/' + year1 + "/" + year2)
+    fetch('https://breadbops.tgq/api/calendar/numberOfLeapYears/' + year1 + "/" + year2)
     .then(response => response.json())
     .then(data => {
 
@@ -34,16 +38,6 @@ function getYear(){
     return inputYear;
 }
 
-function getMonth1(){
-    let inputMonth1 = document.getElementById("inputMonth1").value;
-    return inputMonth1;
-}
-
-function getDay1(){
-    let inputDay1 = document.getElementById("inputDay1").value;
-    return inputDay1;
-}
-
 
 function isLeapYear(yearparam) {
     
@@ -61,23 +55,6 @@ function isLeapYear(yearparam) {
     })
 }
 
-
-function dayOfYear(month1, day1, year1) {
-    
-    result = document.getElementById("dayOfYearResult");
-
-    // Fetch data from API
-    fetch('https://breadbops.gq/api/calendar/dayOfYear/' + month1 + "/" + day1 + "/" + year1)
-    .then(response => response.json())
-    .then(data => {
-
-        console.log(data);
-
-        result.innerHTML = month1 + "" + day1  + " is the " + data.dayOfYear "of the year";
-
-    })
-}
-
 </script>
 
 ### Check if a Year is a Leap Year
@@ -90,36 +67,3 @@ function dayOfYear(month1, day1, year1) {
     <input id="inputYear2" placeholder="Input Ending Year">
     <button onclick="numberOfLeapYears(getYear1(), getYear2())">Submit</button>
 <p id="numberOfLeapYearsResult"></p>
-
-### Check Day Of Year
-<input id="inputMonth1" placeholder="Input Month">
-    <input id="inputDay1" placeholder="Input Day">
-    <input id="inputYear1" placeholder="Input Year">
-    <button onclick="dayOfYear(getMonth1(), getDay1()), getYear1())">Submit</button>
-<p id="dayOfYearResult"></p>
-
-
-<p id="eqResult"></p>
-
-<input id="inputEq" placeholder="Input equation here">
-    <button onclick="getEq(getInputEq())">Calculate Equation</button>
-
-<script>
-
-function getInputEq(){
-    let equation = document.getElementById("inputEq").value;
-    console.log(equation);
-    return equation;
-}
-
-function getEq(eq) {
-    eqResult = document.getElementById("eqResult");
-    fetch('https://breadbops.gq/api/calendar/isLeapYear/' + eq)
-    .then(response => response.json())
-    .then(data => {
-        console.log(data);
-        eqResult.innerHTML = "The answer is: " + data.Result;
-    })
-}
-
-</script>
