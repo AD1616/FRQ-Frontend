@@ -20,6 +20,7 @@
 </table>
 
 
+
 <script>
 // Function to submit a person to the backend
 function submitPerson() {
@@ -47,7 +48,6 @@ function getPeople() {
   fetch('https://breadbops.gq/api/person/').then(response => {
     if (response.ok) {
       response.json().then(people => {
-        // Clear the current table rows
         const table = document.getElementById('table');
         while (table.rows.length > 1) {
           table.deleteRow(-1);
@@ -81,15 +81,46 @@ function getId(id) {
     idResult = document.getElementById("idResult");
 
     if(id < 10452){
-        idResult.innerHTML = "Invalid ID. Person 0 has an ID of 19.";
+        idResult.innerHTML = "Input ID 10452 or greater";
     }
     // Fetch data from API
     fetch('https://breadbops.gq/api/person/' + id)
     .then(response => response.json())
     .then(data => {
         console.log(data);
-        idResult.innerHTML = "Person: " + data.name;
+        idResult.innerHTML = "name exists: " + data.name;
     })
+}
+
+
+function searchByName() {
+  // Get the search name from the form
+  const searchName = document.getElementById('searchName').value;
+
+  // Make a POST request to the search endpoint with the search name as the term
+  fetch('https://breadbops.gq/api/person/search', {
+    method: 'POST',
+    body: '{"term": "' + searchName + '"}',
+  }).then(response => {
+    if (response.ok) {
+      response.json().then(people => {
+        const table = document.getElementById('table');
+        while (table.rows.length > 1) {
+          table.deleteRow(-1);
+        }
+
+        // Add a row for each person
+        for (const person of people) {
+          const row = table.insertRow(-1);
+          row.insertCell(-1).innerHTML = person.id;
+          row.insertCell(-1).innerHTML = person.email;
+          row.insertCell(-1).innerHTML = person.password;
+          row.insertCell(-1).innerHTML = person.name;
+          row.insertCell(-1).innerHTML = person.dob;
+        }
+      });
+    }
+  });
 }
 
 </script>
@@ -100,3 +131,8 @@ function getId(id) {
     <button onclick="getId(getInputId())">Get Person by ID</button>
 
 <br>
+
+<form id="searchForm">
+  Name: <input type="text" id="searchName"><br>
+  <input type="button" value="Search" onclick="searchByName()">
+</form> 
