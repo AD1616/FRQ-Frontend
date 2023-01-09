@@ -1,104 +1,72 @@
 # FRQ 2
 
+<html>
+<head>
+  <title>Person API</title>
+</head>
+<body>
+  <h1>Person API</h1>
 
-<table>
-    <thead>
+  <!-- Form to input new person -->
+  <form id="person-form">
+    Email: <input type="text" name="email"><br>
+    Password: <input type="text" name="password"><br>
+    Name: <input type="text" name="name"><br>
+    DOB: <input type="text" name="dob"><br>
+    <input type="submit" value="Submit">
+  </form>
+
+  <!-- Table to display people -->
+  <table id="people-table">
     <tr>
-        <th>Off/On</th>
-        <th>Quality</th>
-        <th>Luminosity</th>
-        <th>Image</th>
+      <th>ID</th>
+      <th>Email</th>
+      <th>Name</th>
+      <th>DOB</th>
     </tr>
-    </thead>
-    <tbody id="result">
-    <!-- generated rows -->
-    </tbody>
-</table>
+  </table>
 
-<style>
-.circle {
-  height: 50px;
-  width: 50px;
-  border-radius: 50%;
-}
-</style>
+  <script>
+    // Get form element
+    const form = document.getElementById('person-form');
 
-<script>
+    // Handle form submission
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();  // prevent page reload
 
-function componentToHex(c) {
-    c = Math.round(c);
-    let hex = c.toString(16);
-    return hex.length == 1 ? "0" + hex : hex;
-}
-function rgbToHex(r, g, b) {
-    return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
-}
+      // Get form data
+      const data = new FormData(form);
 
-const resultContainer = document.getElementById("result");
+      // Send POST request to API
+      fetch('https://breadbops.gq/api/person/post', {
+        method: 'POST',
+        body: data
+      })
+      .then(response => response.text())  // parse response as text
+      .then(message => {
+        alert(message);  // show message from API
+      });
+    });
 
-function firstCall() {
+    // Send GET request to API to get list of people
+    fetch('https://breadbops.gq/api/person/')
+    .then(response => response.json())  // parse response as JSON
+    .then(people => {
+      // Get table element
+      const table = document.getElementById('people-table');
 
-    fetch('https://breadbops.gq/api/lights/')
-    .then((response) => response.json())
-    .then(data => {
-        console.log(data);
-        
-        for (let i = 0; i < data.length; i++) {  
-
-            const tr = document.createElement("tr");
-            const on = document.createElement("td");
-            const quality = document.createElement("td");
-            const luminosity = document.createElement("td");
-            const image = document.createElement("div");
-
-            image.className = "circle";
-            image.setAttribute("id", "image" + i);
-            gray = data[i]["light"]["luminosity"] * 255/100;
-            image.style.backgroundColor = rgbToHex(gray, gray, gray);
-
-            luminosity.setAttribute("id", "luminosity" + i);
-
-            if (data[i]["light"]["on"]) {
-                on.innerHTML = "On";
-            }
-            else {
-                on.innerHTML = "Off";
-            }
-            quality.innerHTML = data[i]["light"]["quality"]; 
-            luminosity.innerHTML = data[i]["light"]["luminosity"]; 
-
-
-            tr.appendChild(on);
-            tr.appendChild(quality);
-            tr.appendChild(luminosity);
-            tr.appendChild(image);
-
-            resultContainer.appendChild(tr);
-
-        }
-    })
-}
-
-function callAsync() {
-    fetch('https://breadbops.gq/api/lights/')
-    .then((response) => response.json())
-    .then(data => {
-        console.log(data);
-        
-        for (let i = 0; i < data.length; i++) {  
-
-            const image = document.getElementById("image" + i);
-            const luminosity = document.getElementById("luminosity" + i);
-
-            gray = data[i]["light"]["luminosity"] * 255/100;
-            image.style.backgroundColor = rgbToHex(gray, gray, gray);
-
-            luminosity.innerHTML = data[i]["light"]["luminosity"]; 
-        }
-    })
-}
-firstCall();
-
-setInterval(callAsync, 1000);
-
-</script>
+      // Add each person to the table
+      people.forEach(person => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${person.id}</td>
+          <td>${person.email}</td>
+          <td>${person.name}</td>
+          <td>${person.dob}</td>
+        `;
+        table.appendChild(row);
+      });
+    });
+  </script>
+</body>
+</html>
