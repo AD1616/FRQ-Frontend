@@ -12,14 +12,19 @@ function getYear(){
     let inputYear = document.getElementById("inputYear").value;
     return inputYear;
 }
+function getBrand(){
+    let inputBrand = document.getElementById("inputBrand").value;
+    return inputBrand;
+}
 
 
-function isLeapYear(yearparam) {
+function isLeapYear(brandparam, yearparam) {
     
     result = document.getElementById("isLeapYearResult");
     console.log(yearparam);
+    console.log(brandparam);
     // Fetch data from API
-    fetch('https://breadbops.gq/api/calendar/fetchCars/honda/' + yearparam)
+    fetch('https://breadbops.gq/api/calendar/fetchCars/' + brandparam + "/" + yearparam)
     .then(response => response.json())
     .then(data => {
 
@@ -36,7 +41,7 @@ const table = document.getElementById('idk');
           row.insertCell(-1).innerHTML = car.Model_Name;
         }
 
-        result.innerHTML = "Is " + yearparam + " a leap year: " + data.Results;
+        result.innerHTML =  yearparam + brandparam + data.Results;
 
     })
 }
@@ -45,5 +50,6 @@ const table = document.getElementById('idk');
 
 ### Car Models for Honda Year
 <input id="inputYear" placeholder="Input a Year">
-<button onclick="isLeapYear(getYear())">Submit</button>
+<input id="inputBrand" placeholder="Input a Brand">
+<button onclick="isLeapYear(getBrand(), getYear())">Submit</button>
 <p id="isLeapYearResult"></p>
