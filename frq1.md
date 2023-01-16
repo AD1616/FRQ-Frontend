@@ -1,7 +1,24 @@
 # FRQ 1
 
+<style>
+input[type=text] {
+  width: 130px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: white;
+  background-position: 10px 10px; 
+  background-repeat: no-repeat;
+  padding: 12px 20px 12px 10px;
+  transition: width 0.4s ease-in-out;
+}
 
-<table id="idk"></table>
+input[type=text]:focus {
+  width: 50%;
+}
+
+</style>
 
 
 <script>
@@ -46,10 +63,29 @@ const table = document.getElementById('idk');
     })
 }
 
-</script>
 
-### Car Models for Honda Year
-<input id="inputYear" placeholder="Input a Year">
-<input id="inputBrand" placeholder="Input a Brand">
-<button onclick="isLeapYear(getBrand(), getYear())">Submit</button>
-<p id="isLeapYearResult"></p>
+
+
+</script>
+### Car Models for Specific Year
+<a href="{{site.baseurl}}/frq1">reset</a>
+
+<body> 
+
+<input type="text" name="search" id="inputBrand" placeholder="Brand">
+<input type="text" name="search" id="inputYear" placeholder="Year">
+<button class="hvr-shutter-out-horizontal" id= "button" onclick="isLeapYear(getBrand(), getYear())">Go</button>
+<table id="idk"></table>
+
+</body>
+
+<!-- makes sure you can press enter to submit the form -->
+<script>
+  var input = document.getElementById("inputYear");
+input.addEventListener("keypress", function(event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    document.getElementById("button").click();
+  }
+});
+</script>
